@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/FHLVoiceSearch/.vs/FHLVoiceSearch/v16
+/FHLVoiceSearch/FHLVoiceSearch/bin/Debug
+/FHLVoiceSearch/FHLVoiceSearch/obj/Debug
