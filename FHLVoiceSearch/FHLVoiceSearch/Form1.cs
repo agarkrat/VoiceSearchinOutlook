@@ -21,47 +21,9 @@ namespace FHLVoiceSearch
 
         private static SpeechRecognizer recognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
-        private bool isStillSearching = true;
-
         public VoiceSearch()
         {
             InitializeComponent();
-        }
-
-        private async void speakItOut(string text)
-        {
-            if("Searching for ".Equals(text))
-            {
-                return;
-            }
-            // Creates a speech synthesizer using the default speaker as audio output.
-            using (var synthesizer = new SpeechSynthesizer(speechConfig))
-            {
-                // Receive a text from console input and synthesize it to speaker.
-                //Console.WriteLine("Type some text that you want to speak...");
-                //Console.Write("> ");
-                //string text = Console.ReadLine();
-
-                using (var result = await synthesizer.SpeakTextAsync(text))
-                {
-                    if (result.Reason == ResultReason.SynthesizingAudioCompleted)
-                    {
-                        Console.WriteLine($"Speech synthesized to speaker for text [{text}]");
-                    }
-                    else if (result.Reason == ResultReason.Canceled)
-                    {
-                        var cancellation = SpeechSynthesisCancellationDetails.FromResult(result);
-                        Console.WriteLine($"CANCELED: Reason={cancellation.Reason}");
-
-                        if (cancellation.Reason == CancellationReason.Error)
-                        {
-                            Console.WriteLine($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                            Console.WriteLine($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
-                            Console.WriteLine($"CANCELED: Did you update the subscription info?");
-                        }
-                    }
-                }
-            }
         }
 
         private async void pictureBox1_ClickAsync(object sender, EventArgs e)
@@ -77,28 +39,13 @@ namespace FHLVoiceSearch
             {
                 if (eg.Result.Reason == ResultReason.RecognizedSpeech)
                 {
+                    stopRecognition.TrySetResult(0);
                     //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
                     string resultText = eg.Result.Text;
                     ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
                     resultText = speechParser.ParseSpeechText(resultText);
-                    Globals.ThisAddIn.Application.ActiveExplorer().Search(resultText, Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
+                    speechParser.PerformAction(resultText);
 
-                    if (isStillSearching)
-                    {
-                        recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
-                    }
-
-                    stopRecognition.TrySetResult(0);
-
-                    Task.Delay(1000).Wait();
-                    this.speakItOut("Searching for " + eg.Result.Text);
-                    Task.Delay(3000).Wait();
-
-                    if (isStillSearching)
-                    {
-                        recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
-                    }
-                    
                 }
                 else if (eg.Result.Reason == ResultReason.NoMatch)
                 {
@@ -132,7 +79,6 @@ namespace FHLVoiceSearch
         private async void stopButtonClick(object sender, EventArgs e)
         {
             MessageBox.Show("Stopping search");
-            isStillSearching = false;
             await recognizer.StopContinuousRecognitionAsync();
         }
     }

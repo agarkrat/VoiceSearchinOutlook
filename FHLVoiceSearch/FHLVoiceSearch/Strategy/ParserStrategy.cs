@@ -11,7 +11,8 @@ namespace FHLVoiceSearch.Strategy
     {
         private static Dictionary<string, ISpeechParser> supportedActions = new Dictionary<string, ISpeechParser>
         {
-            { "search", new SearchDecorator( new SpeechParser()) }
+            { "search", new SearchDecorator( new SpeechParser()) },
+            { "reply", new ReplyDecorator( new SpeechParser() )}
             /*
              * { "compose", },
             { "filter", },
@@ -23,7 +24,7 @@ namespace FHLVoiceSearch.Strategy
         {
             foreach (string action in supportedActions.Keys)
             {
-                if (speechText.StartsWith(action))
+                if (speechText.StartsWith(action, StringComparison.InvariantCultureIgnoreCase))
                 {
                     supportedActions.TryGetValue(action, out ISpeechParser thisParser);
                     return thisParser;

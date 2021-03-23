@@ -9,5 +9,7 @@ namespace FHLVoiceSearch
     interface ISpeechParser
     {
         string ParseSpeechText(string speechText);
+
+        void PerformAction(string speechText);
     }
 }
