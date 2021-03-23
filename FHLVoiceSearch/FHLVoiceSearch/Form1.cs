@@ -14,7 +14,7 @@ namespace FHLVoiceSearch
 {
     public partial class VoiceSearch : Form
     {
-        private static SpeechConfig speechConfig = SpeechConfig.FromSubscription("433150e2a7084ddbac18926de1a19086", "centralindia");
+        private static SpeechConfig speechConfig = SpeechConfig.FromSubscription("", "centralindia");
 
         private static AudioConfig audioConfig = AudioConfig.FromDefaultMicrophoneInput();
 
