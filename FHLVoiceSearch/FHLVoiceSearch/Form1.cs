@@ -1,4 +1,5 @@
-﻿using Microsoft.CognitiveServices.Speech;
+﻿using FHLVoiceSearch.Strategy;
+using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace FHLVoiceSearch
 {
     public partial class VoiceSearch : Form
     {
-        private static SpeechConfig speechConfig = SpeechConfig.FromSubscription("", "centralindia");
+        private static SpeechConfig speechConfig = SpeechConfig.FromSubscription("5e2fd87cefd448ab8e5d3d6d31b25d87", "centralindia");
 
         private static AudioConfig audioConfig = AudioConfig.FromDefaultMicrophoneInput();
 
@@ -34,13 +35,15 @@ namespace FHLVoiceSearch
 
             await recognizer.StartContinuousRecognitionAsync();
             var stopRecognition = new TaskCompletionSource<int>();
-
             recognizer.Recognized += (s, eg) =>
             {
                 if (eg.Result.Reason == ResultReason.RecognizedSpeech)
                 {
                     //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
-                    Globals.ThisAddIn.Application.ActiveExplorer().Search(eg.Result.Text, Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
+                    string resultText = eg.Result.Text;
+                    ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
+                    resultText = speechParser.ParseSpeechText(resultText);
+                    Globals.ThisAddIn.Application.ActiveExplorer().Search(resultText, Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
                     stopRecognition.TrySetResult(0);
 
                 }
