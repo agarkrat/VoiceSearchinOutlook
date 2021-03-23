@@ -39,12 +39,12 @@ namespace FHLVoiceSearch
             {
                 if (eg.Result.Reason == ResultReason.RecognizedSpeech)
                 {
+                    stopRecognition.TrySetResult(0);
                     //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
                     string resultText = eg.Result.Text;
                     ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
                     resultText = speechParser.ParseSpeechText(resultText);
-                    Globals.ThisAddIn.Application.ActiveExplorer().Search(resultText, Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
-                    stopRecognition.TrySetResult(0);
+                    speechParser.PerformAction(resultText);
 
                 }
                 else if (eg.Result.Reason == ResultReason.NoMatch)

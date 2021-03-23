@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Tools.Ribbon;
+﻿using Microsoft.Office.Interop.Outlook;
+using Microsoft.Office.Tools.Ribbon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,13 @@ namespace FHLVoiceSearch
             //MessageBox.Show("Hi there! :)");
             //Globals.ThisAddIn.Application.ActiveExplorer().Search("from:Raj", Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
 
+
+            /*MailItem mailItem = (MailItem)Globals.ThisAddIn.Application.CreateItem(OlItemType.olMailItem);
+            
+            mailItem.Display(true);*/
+
             VoiceSearch form = new VoiceSearch();
-            form.ShowDialog();
+            form.Show();
         }
     }
 }

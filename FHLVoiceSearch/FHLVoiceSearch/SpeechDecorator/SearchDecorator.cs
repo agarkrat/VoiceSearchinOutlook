@@ -53,5 +53,10 @@ namespace FHLVoiceSearch.SpeechDecorator
 
             return this.speechParser.ParseSpeechText(input);
         }
+
+        public void PerformAction(string text)
+        {
+            Globals.ThisAddIn.Application.ActiveExplorer().Search(text, Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
+        }
     }
 }

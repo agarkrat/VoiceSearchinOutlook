@@ -12,5 +12,10 @@ namespace FHLVoiceSearch
         {
             return speechText;
         }
+
+        public void PerformAction(string speechText)
+        {
+            return;
+        }
     }
 }
