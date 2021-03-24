@@ -5,12 +5,11 @@ using System.Windows.Forms;
 
 namespace FHLVoiceSearch.SpeechDecorator
 {
-    class ReplyDecorator : ISpeechParser
+    class ReadOutDecorator : ISpeechParser
     {
-
         private ISpeechParser speechParser;
 
-        public ReplyDecorator(ISpeechParser speechParser)
+        public ReadOutDecorator(ISpeechParser speechParser)
         {
             this.speechParser = speechParser;
         }
@@ -19,27 +18,25 @@ namespace FHLVoiceSearch.SpeechDecorator
         {
             return this.speechParser.ParseSpeechText(speechText);
         }
-
+        
         public void PerformAction(string speechText)
         {
-            speechText = Utility.TruncateActionString(speechText, "Reply");
+            speechText = Utility.TruncateActionString(speechText, "Read out");
 
             var item = Utility.GetNThItem(speechText);
+
             if (item is MailItem)
             {
                 MailItem mailItem = (MailItem)item;
-                MailItem replyItem = mailItem.Reply();
-
-                VoiceSearch.speakItOut(" The Subject of the mail is : " + replyItem.Subject + ", You are Replying to " + replyItem.To);
-
-                replyItem.Display(true);
+                VoiceSearch.speakItOut(" The mail says: " + mailItem.Body);
             }
             else
             {
                 Console.WriteLine(item.GetType());
             }
-
+            
             Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
+
         }
     }
 }

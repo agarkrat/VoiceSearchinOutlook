@@ -12,7 +12,10 @@ namespace FHLVoiceSearch.Strategy
         private static Dictionary<string, ISpeechParser> supportedActions = new Dictionary<string, ISpeechParser>
         {
             { "search", new SearchDecorator( new SpeechParser()) },
-            { "reply", new ReplyDecorator( new SpeechParser() )}
+            { "reply", new ReplyDecorator( new SpeechParser() )},
+            { "read out", new ReadOutDecorator( new SpeechParser() )},
+            { "flag", new FlagDecorator( new SpeechParser()) },
+            
             /*
              * { "compose", },
             { "filter", },
