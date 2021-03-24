@@ -71,6 +71,7 @@ namespace FHLVoiceSearch
             {
                 // This is for the case when you want to start recording
                 checkBox1.ImageIndex = 0;
+                checkBox1.BackgroundImage = null;
                 speechConfig.EnableDictation();
 
                 //var result = await recognizer.RecognizeOnceAsync();

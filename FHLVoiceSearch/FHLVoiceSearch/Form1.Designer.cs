@@ -33,8 +33,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,30 +57,30 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "toolStripMenuItem1";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.checkBox1.BackgroundImage = global::FHLVoiceSearch.Properties.Resources.mp;
-            this.checkBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.checkBox1.FlatAppearance.BorderSize = 0;
-            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox1.ImageList = this.imageList1;
-            this.checkBox1.Location = new System.Drawing.Point(94, 57);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(51, 52);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.checkBox1.UseVisualStyleBackColor = false;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "GreenNew.jpg");
             this.imageList1.Images.SetKeyName(1, "RedNew.jpg");
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.checkBox1.BackgroundImage = global::FHLVoiceSearch.Properties.Resources.RedNew;
+            this.checkBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.checkBox1.FlatAppearance.BorderSize = 0;
+            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox1.ImageList = this.imageList1;
+            this.checkBox1.Location = new System.Drawing.Point(101, 70);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(38, 36);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.checkBox1.UseVisualStyleBackColor = false;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // VoiceSearch
             // 
