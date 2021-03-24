@@ -53,6 +53,8 @@ namespace FHLVoiceSearch.SpeechDecorator
                 // mailItem.MarkAsTask(OlMarkInterval.olMarkNoDate);
                 MailItem replyItem = mailItem.Reply();
 
+                VoiceSearch.speakItOut(" The Subject of the mail is : " + replyItem.Subject + ", You are Replying to " + replyItem.To);
+
                 replyItem.Display(true);
             }
             else
