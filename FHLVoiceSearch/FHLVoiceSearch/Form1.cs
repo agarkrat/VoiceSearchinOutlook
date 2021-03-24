@@ -70,7 +70,6 @@ namespace FHLVoiceSearch
             if (checkBox1.Checked)
             {
                 // This is for the case when you want to start recording
-
                 label1.Text = "Click to Pause or Stop";
                 checkBox1.ImageIndex = 0;
                 checkBox1.BackgroundImage = null;
@@ -90,19 +89,27 @@ namespace FHLVoiceSearch
                         string resultText = eg.Result.Text;
                         ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
                         resultText = speechParser.ParseSpeechText(resultText);
-                        speechParser.PerformAction(resultText);
 
-                        if (isStillSearching)
+                        if (resultText.StartsWith("Stop", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
+                            this.Close();
                         }
-
-                        this.speakItOut("Searching for " + eg.Result.Text);
-                        Task.Delay(3000).Wait();
-
-                        if (isStillSearching)
+                        else
                         {
-                            recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
+                            speechParser.PerformAction(resultText);
+
+                            if (isStillSearching)
+                            {
+                                recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
+                            }
+
+                            this.speakItOut("Searching for " + eg.Result.Text);
+                            Task.Delay(3000).Wait();
+
+                            if (isStillSearching)
+                            {
+                                recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
+                            }
                         }
                     }
                     else if (eg.Result.Reason == ResultReason.NoMatch)
