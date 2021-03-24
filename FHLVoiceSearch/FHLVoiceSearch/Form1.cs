@@ -95,6 +95,13 @@ namespace FHLVoiceSearch
 
                         ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
                         resultText = speechParser.ParseSpeechText(resultText);
+
+                        if (resultText.StartsWith("Stop", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            this.Close();
+                            return;
+                        }
+
                         speechParser.PerformAction(resultText);
                         Task.Delay(3000).Wait();
 
