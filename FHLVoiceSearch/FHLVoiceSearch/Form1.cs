@@ -28,7 +28,7 @@ namespace FHLVoiceSearch
             InitializeComponent();
         }
 
-        private async void speakItOut(string text)
+        public static async void speakItOut(string text)
         {
             if ("Searching for ".Equals(text))
             {
@@ -86,17 +86,20 @@ namespace FHLVoiceSearch
                         stopRecognition.TrySetResult(0);
                         //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
                         string resultText = eg.Result.Text;
-                        ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
-                        resultText = speechParser.ParseSpeechText(resultText);
-                        speechParser.PerformAction(resultText);
 
                         if (isStillSearching)
                         {
                             recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
                         }
 
-                        this.speakItOut("Searching for " + eg.Result.Text);
+                        ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
+                        resultText = speechParser.ParseSpeechText(resultText);
+                        speechParser.PerformAction(resultText);
                         Task.Delay(3000).Wait();
+
+
+                        ////speakItOut("Searching for " + eg.Result.Text);
+                        //Task.Delay(3000).Wait();
 
                         if (isStillSearching)
                         {
