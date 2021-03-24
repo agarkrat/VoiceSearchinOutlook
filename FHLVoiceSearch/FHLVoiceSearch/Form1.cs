@@ -64,73 +64,78 @@ namespace FHLVoiceSearch
             }
         }
 
-        private async void pictureBox1_ClickAsync(object sender, EventArgs e)
+        private async void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            speechConfig.EnableDictation();
-
-            //var result = await recognizer.RecognizeOnceAsync();
-            //MessageBox.Show($"Here's what you said : {result.Text}");
-
-            await recognizer.StartContinuousRecognitionAsync();
-            var stopRecognition = new TaskCompletionSource<int>();
-            recognizer.Recognized += (s, eg) =>
+            //Copy changes done for picture box here
+            if (checkBox1.Checked)
             {
-                if (eg.Result.Reason == ResultReason.RecognizedSpeech)
+                // This is for the case when you want to start recording
+                checkBox1.ImageIndex = 0;
+                speechConfig.EnableDictation();
+
+                //var result = await recognizer.RecognizeOnceAsync();
+                //MessageBox.Show($"Here's what you said : {result.Text}");
+
+                await recognizer.StartContinuousRecognitionAsync();
+                var stopRecognition = new TaskCompletionSource<int>();
+                recognizer.Recognized += (s, eg) =>
                 {
+                    if (eg.Result.Reason == ResultReason.RecognizedSpeech)
+                    {
+                        stopRecognition.TrySetResult(0);
+                        //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
+                        string resultText = eg.Result.Text;
+                        ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
+                        resultText = speechParser.ParseSpeechText(resultText);
+                        speechParser.PerformAction(resultText);
+
+                        if (isStillSearching)
+                        {
+                            recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
+                        }
+
+                        this.speakItOut("Searching for " + eg.Result.Text);
+                        Task.Delay(3000).Wait();
+
+                        if (isStillSearching)
+                        {
+                            recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
+                        }
+                    }
+                    else if (eg.Result.Reason == ResultReason.NoMatch)
+                    {
+                        //MessageBox.Show($"NOMATCH: Speech could not be recognized.");
+                    }
+                };
+
+                recognizer.Canceled += (s, eg) =>
+                {
+                    //Console.WriteLine($"CANCELED: Reason={eg.Reason}");
+
+                    if (eg.Reason == CancellationReason.Error)
+                    {
+                        //MessageBox.Show($"CANCELED: ErrorCode={eg.ErrorCode}");
+                        //MessageBox.Show($"CANCELED: ErrorDetails={eg.ErrorDetails}");
+                        //MessageBox.Show($"CANCELED: Did you update the subscription info?");
+                    }
+
                     stopRecognition.TrySetResult(0);
-                    //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
-                    string resultText = eg.Result.Text;
-                    ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
-                    resultText = speechParser.ParseSpeechText(resultText);
-                    speechParser.PerformAction(resultText);
+                };
 
-                    if (isStillSearching)
-                    {
-                        recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
-                    }
-
-                    this.speakItOut("Searching for " + eg.Result.Text);
-                    Task.Delay(3000).Wait();
-
-                    if (isStillSearching)
-                    {
-                        recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
-                    }
-                }
-                else if (eg.Result.Reason == ResultReason.NoMatch)
+                recognizer.SessionStopped += (s, eg) =>
                 {
-                    //MessageBox.Show($"NOMATCH: Speech could not be recognized.");
-                }
-            };
+                    //Console.WriteLine("\n    Session stopped event.");
+                    stopRecognition.TrySetResult(0);
+                };
 
-            recognizer.Canceled += (s, eg) =>
+                Task.WaitAny(new[] { stopRecognition.Task });
+            }
+            else
             {
-                //Console.WriteLine($"CANCELED: Reason={eg.Reason}");
-
-                if (eg.Reason == CancellationReason.Error)
-                {
-                    //MessageBox.Show($"CANCELED: ErrorCode={eg.ErrorCode}");
-                    //MessageBox.Show($"CANCELED: ErrorDetails={eg.ErrorDetails}");
-                    //MessageBox.Show($"CANCELED: Did you update the subscription info?");
-                }
-
-                stopRecognition.TrySetResult(0);
-            };
-
-            recognizer.SessionStopped += (s, eg) =>
-            {
-                //Console.WriteLine("\n    Session stopped event.");
-                stopRecognition.TrySetResult(0);
-            };
-
-            Task.WaitAny(new[] { stopRecognition.Task });
-        }
-
-        private async void stopButtonClick(object sender, EventArgs e)
-        {
-            MessageBox.Show("Stopping search");
-            isStillSearching = false;
-            await recognizer.StopContinuousRecognitionAsync();
+                checkBox1.ImageIndex = 1;
+                isStillSearching = false;
+                await recognizer.StopContinuousRecognitionAsync();
+            }
         }
     }
 }

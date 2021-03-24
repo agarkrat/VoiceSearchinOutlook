@@ -45,7 +45,7 @@ namespace FHLVoiceSearch
             // VoiceSearch
             // 
             this.VoiceSearch.Groups.Add(this.TestGroup);
-            this.VoiceSearch.Label = "VoiceSearch";
+            this.VoiceSearch.Label = "VoiceCommand";
             this.VoiceSearch.Name = "VoiceSearch";
             // 
             // TestGroup
@@ -57,7 +57,7 @@ namespace FHLVoiceSearch
             // button1
             // 
             this.button1.Image = global::FHLVoiceSearch.Properties.Resources.Search;
-            this.button1.Label = "Search";
+            this.button1.Label = "Activate";
             this.button1.Name = "button1";
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
