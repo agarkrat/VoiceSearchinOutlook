@@ -70,6 +70,8 @@ namespace FHLVoiceSearch
             if (checkBox1.Checked)
             {
                 // This is for the case when you want to start recording
+
+                label1.Text = "Click to Pause or Stop";
                 checkBox1.ImageIndex = 0;
                 checkBox1.BackgroundImage = null;
                 speechConfig.EnableDictation();
@@ -136,6 +138,7 @@ namespace FHLVoiceSearch
             }
             else
             {
+                label1.Text = "Tap the microphone to start";
                 checkBox1.ImageIndex = 1;
                 isStillSearching = false;
                 await recognizer.StopContinuousRecognitionAsync();
