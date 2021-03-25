@@ -99,50 +99,7 @@ namespace FHLVoiceSearch
 
                 await recognizer.StartContinuousRecognitionAsync();
                 var stopRecognition = new TaskCompletionSource<int>();
-                recognizer.Recognized += (s, eg) =>
-                {
-                    if (eg.Result.Reason == ResultReason.RecognizedSpeech)
-                    {
-                        stopRecognition.TrySetResult(0);
-                        //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
-                        string resultText = eg.Result.Text;
-
-                            if (isStillSearching)
-                            {
-                                recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
-                            }
-
-                        ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
-                        resultText = speechParser.ParseSpeechText(resultText);
-
-                        if(string.IsNullOrWhiteSpace(resultText))
-                        {
-                            return;
-                        }
-
-                        if (resultText.StartsWith("Stop", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            this.Close();
-                            return;
-                        }
-
-                        speechParser.PerformAction(resultText);
-                        //Task.Delay(3000).Wait();
-
-
-                        ////speakItOut("Searching for " + eg.Result.Text);
-                        //Task.Delay(3000).Wait();
-
-                        if (isStillSearching)
-                        {
-                            recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
-                        }
-                    }
-                    else if (eg.Result.Reason == ResultReason.NoMatch)
-                    {
-                        //MessageBox.Show($"NOMATCH: Speech could not be recognized.");
-                    }
-                };
+                recognizer.Recognized += new EventHandler<SpeechRecognitionEventArgs>(recognizer_SpeechRecognized);
 
                 recognizer.Canceled += (s, eg) =>
                 {
@@ -171,7 +128,55 @@ namespace FHLVoiceSearch
                 label1.Text = "Tap the microphone to start";
                 checkBox1.ImageIndex = 1;
                 isStillSearching = false;
+                recognizer.Recognized -= new EventHandler<SpeechRecognitionEventArgs>(recognizer_SpeechRecognized);
                 await recognizer.StopContinuousRecognitionAsync();
+            }
+        }
+
+        // Write the text of the recognized phrase to the console.  
+        private async void recognizer_SpeechRecognized(object sender, SpeechRecognitionEventArgs e)
+        {
+            if (e.Result.Reason == ResultReason.RecognizedSpeech)
+            {
+                //stopRecognition.TrySetResult(0);
+                //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
+                string resultText = e.Result.Text;
+
+                if (isStillSearching)
+                {
+                    recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
+                }
+
+                ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
+                resultText = speechParser.ParseSpeechText(resultText);
+
+                if (string.IsNullOrWhiteSpace(resultText))
+                {
+                    return;
+                }
+
+                if (resultText.StartsWith("Stop", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    await speakItOut("Stopping search. Have a nice day");
+                    this.Close();
+                    return;
+                }
+
+                speechParser.PerformAction(resultText);
+                //Task.Delay(3000).Wait();
+
+
+                ////speakItOut("Searching for " + eg.Result.Text);
+                //Task.Delay(3000).Wait();
+
+                if (isStillSearching)
+                {
+                    recognizer.StartContinuousRecognitionAsync().GetAwaiter().GetResult();
+                }
+            }
+            else if (e.Result.Reason == ResultReason.NoMatch)
+            {
+                //MessageBox.Show($"NOMATCH: Speech could not be recognized.");
             }
         }
     }
