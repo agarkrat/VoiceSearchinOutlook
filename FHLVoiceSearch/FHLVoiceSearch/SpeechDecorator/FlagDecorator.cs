@@ -34,7 +34,7 @@ namespace FHLVoiceSearch.SpeechDecorator
                 mailItem.FlagStatus = OlFlagStatus.olFlagMarked;
                 mailItem.FlagDueBy = DateTime.Today;
                 mailItem.MarkAsTask(OlMarkInterval.olMarkToday);
-                VoiceSearch.speakItOut(" Flagged the mail with subject: " + mailItem.Subject);
+                VoiceSearch.speakItOut(" Flagged the mail with subject: " + mailItem.Subject).GetAwaiter().GetResult();
             }
             else
             {

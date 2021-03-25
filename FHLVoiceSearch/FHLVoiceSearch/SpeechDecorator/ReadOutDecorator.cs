@@ -29,7 +29,7 @@ namespace FHLVoiceSearch.SpeechDecorator
             {
                 MailItem mailItem = (MailItem)item;
                 Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
-                VoiceSearch.speakItOut(" The mail says: " + mailItem.Body);
+                VoiceSearch.speakItOut(" The mail says: " + mailItem.Body).GetAwaiter().GetResult();
             }
             else
             {

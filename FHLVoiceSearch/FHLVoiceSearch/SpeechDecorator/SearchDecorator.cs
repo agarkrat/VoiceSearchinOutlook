@@ -57,7 +57,7 @@ namespace FHLVoiceSearch.SpeechDecorator
         public void PerformAction(string text)
         {
             Globals.ThisAddIn.Application.ActiveExplorer().Search(text, Microsoft.Office.Interop.Outlook.OlSearchScope.olSearchScopeAllFolders);
-            VoiceSearch.speakItOut("Searching for " + text);
+            VoiceSearch.speakItOut("Searching for " + text).GetAwaiter().GetResult();
         }
     }
 }
