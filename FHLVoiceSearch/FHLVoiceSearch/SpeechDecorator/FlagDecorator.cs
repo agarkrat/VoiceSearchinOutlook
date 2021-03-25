@@ -29,6 +29,7 @@ namespace FHLVoiceSearch.SpeechDecorator
             if (item is MailItem)
             {
                 MailItem mailItem = (MailItem)item;
+                Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
                 mailItem.FlagRequest = "Flag";
                 mailItem.FlagStatus = OlFlagStatus.olFlagMarked;
                 mailItem.FlagDueBy = DateTime.Today;
@@ -39,9 +40,6 @@ namespace FHLVoiceSearch.SpeechDecorator
             {
                 Console.WriteLine(item.GetType());
             }
-            
-            Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
-
         }
     }
 }

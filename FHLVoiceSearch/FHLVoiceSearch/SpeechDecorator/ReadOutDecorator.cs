@@ -28,6 +28,7 @@ namespace FHLVoiceSearch.SpeechDecorator
             if (item is MailItem)
             {
                 MailItem mailItem = (MailItem)item;
+                Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
                 VoiceSearch.speakItOut(" The mail says: " + mailItem.Body);
             }
             else
@@ -35,7 +36,7 @@ namespace FHLVoiceSearch.SpeechDecorator
                 Console.WriteLine(item.GetType());
             }
             
-            Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
+            
 
         }
     }

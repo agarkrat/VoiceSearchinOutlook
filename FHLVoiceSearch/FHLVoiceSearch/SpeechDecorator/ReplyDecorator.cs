@@ -29,7 +29,7 @@ namespace FHLVoiceSearch.SpeechDecorator
             {
                 MailItem mailItem = (MailItem)item;
                 MailItem replyItem = mailItem.Reply();
-
+                Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
                 VoiceSearch.speakItOut(" The Subject of the mail is : " + replyItem.Subject + ", You are Replying to " + replyItem.To);
 
                 replyItem.Display(true);
@@ -39,7 +39,7 @@ namespace FHLVoiceSearch.SpeechDecorator
                 Console.WriteLine(item.GetType());
             }
 
-            Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
+
         }
     }
 }
