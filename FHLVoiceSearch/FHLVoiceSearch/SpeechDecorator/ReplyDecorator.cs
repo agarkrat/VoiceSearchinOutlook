@@ -21,37 +21,14 @@ namespace FHLVoiceSearch.SpeechDecorator
             return this.speechParser.ParseSpeechText(speechText);
         }
 
-        private string GetDigits(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return s;
-            string cleaned = new string(s.Where(char.IsDigit).ToArray());
-            return cleaned;
-        }
-
         public void PerformAction(string speechText)
         {
-            speechText = speechText.Trim();
-            if (speechText.StartsWith("Reply"))
-            {
-                speechText = speechText.Substring(5);
-            }
+            speechText = Utility.TruncateActionString(speechText, "Reply");
 
-            speechText = GetDigits(speechText);
-
-
-            bool isParsable = Int32.TryParse(speechText, out int index);
-            if (!isParsable)
-            {
-                index = 1;
-            }
-            Globals.ThisAddIn.Application.ActiveExplorer().SelectAllItems();
-            var item = Globals.ThisAddIn.Application.ActiveExplorer().Selection[index];
-            
+            var item = Utility.GetNThItem(speechText);
             if (item is MailItem)
             {
                 MailItem mailItem = (MailItem)item;
-                // To-do: Explore if a mail can be flaged
-                // mailItem.MarkAsTask(OlMarkInterval.olMarkNoDate);
                 MailItem replyItem = mailItem.Reply();
 
                 replyItem.Display(false);
@@ -82,15 +59,7 @@ namespace FHLVoiceSearch.SpeechDecorator
                 Console.WriteLine(item.GetType());
             }
 
-            /*
-            // Todo: unselect selection
-            int length = Globals.ThisAddIn.Application.ActiveExplorer().Selection.Count;
-            for (int i=1; i < length; i++)
-            {
-                MailItem mailItem = (MailItem) Globals.ThisAddIn.Application.ActiveExplorer().Selection[i]; ;
-                Globals.ThisAddIn.Application.ActiveExplorer().RemoveFromSelection(mailItem);
-            }
-            */
+            Globals.ThisAddIn.Application.ActiveExplorer().ClearSelection();
         }
     }
 }

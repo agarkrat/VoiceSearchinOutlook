@@ -89,7 +89,6 @@ namespace FHLVoiceSearch
             if (checkBox1.Checked)
             {
                 // This is for the case when you want to start recording
-
                 label1.Text = "Click to Pause or Stop";
                 checkBox1.ImageIndex = 0;
                 checkBox1.BackgroundImage = null;
@@ -108,13 +107,20 @@ namespace FHLVoiceSearch
                         //MessageBox.Show($"RECOGNIZED: Text={eg.Result.Text}");
                         string resultText = eg.Result.Text;
 
-                        if (isStillSearching)
-                        {
-                            recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
-                        }
+                            if (isStillSearching)
+                            {
+                                recognizer.StopContinuousRecognitionAsync().GetAwaiter().GetResult();
+                            }
 
                         ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
                         resultText = speechParser.ParseSpeechText(resultText);
+
+                        if (resultText.StartsWith("Stop", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            this.Close();
+                            return;
+                        }
+
                         speechParser.PerformAction(resultText);
                         //Task.Delay(3000).Wait();
 

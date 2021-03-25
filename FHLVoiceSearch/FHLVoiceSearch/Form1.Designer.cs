@@ -1,4 +1,6 @@
-﻿namespace FHLVoiceSearch
+﻿using System.Windows.Forms;
+
+namespace FHLVoiceSearch
 {
     partial class VoiceSearch
     {
@@ -34,8 +36,8 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,26 +64,8 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "GreenNew.jpg");
-            this.imageList1.Images.SetKeyName(1, "RedNew.jpg");
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.checkBox1.BackgroundImage = global::FHLVoiceSearch.Properties.Resources.RedNew;
-            this.checkBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.checkBox1.FlatAppearance.BorderSize = 0;
-            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox1.ImageList = this.imageList1;
-            this.checkBox1.Location = new System.Drawing.Point(101, 70);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(38, 36);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.checkBox1.UseVisualStyleBackColor = false;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.imageList1.Images.SetKeyName(0, "greensvg.jpg");
+            this.imageList1.Images.SetKeyName(1, "RedMuteSvg.jpg");
             // 
             // label1
             // 
@@ -94,16 +78,37 @@
             this.label1.Text = "Tap microphone to start";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.checkBox1.BackgroundImage = global::FHLVoiceSearch.Properties.Resources.RedMuteSvg;
+            this.checkBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.checkBox1.FlatAppearance.BorderSize = 0;
+            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox1.ImageList = this.imageList1;
+            this.checkBox1.Location = new System.Drawing.Point(101, 70);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(38, 36);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox1.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.checkBox1.UseVisualStyleBackColor = false;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            CheckBox.CheckForIllegalCrossThreadCalls = false;
+
+            // 
             // VoiceSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(253, 188);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBox1);
             this.Location = new System.Drawing.Point(50, 50);
             this.Name = "VoiceSearch";
-            this.Text = "VoiceSearch";
+            this.Text = "VoiceCommand";
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip1.PerformLayout();
             this.ResumeLayout(false);
