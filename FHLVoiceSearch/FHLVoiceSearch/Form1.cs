@@ -28,11 +28,28 @@ namespace FHLVoiceSearch
             InitializeComponent();
         }
 
-        public static async void speakItOut(string text)
+        public static async Task<string> RecognizeSpeechAsync()
+        {
+            string text = string.Empty;
+            using (var recognizer2 = new SpeechRecognizer(speechConfig))
+            {
+                var result = await recognizer2.RecognizeOnceAsync();
+
+                // Checks result.
+                if (result.Reason == ResultReason.RecognizedSpeech)
+                {
+                    text = result.Text;
+                }
+            }
+
+            return text;
+        }
+
+        public static async Task<string> speakItOut(string text)
         {
             if ("Searching for ".Equals(text))
             {
-                return;
+                return "";
             }
             // Creates a speech synthesizer using the default speaker as audio output.
             using (var synthesizer = new SpeechSynthesizer(speechConfig))
@@ -62,6 +79,8 @@ namespace FHLVoiceSearch
                     }
                 }
             }
+
+            return "";
         }
 
         private async void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -97,7 +116,7 @@ namespace FHLVoiceSearch
                         ISpeechParser speechParser = new ParserStrategy().GetParser(resultText);
                         resultText = speechParser.ParseSpeechText(resultText);
                         speechParser.PerformAction(resultText);
-                        Task.Delay(3000).Wait();
+                        //Task.Delay(3000).Wait();
 
 
                         ////speakItOut("Searching for " + eg.Result.Text);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FHLVoiceSearch.SpeechDecorator
@@ -53,9 +54,28 @@ namespace FHLVoiceSearch.SpeechDecorator
                 // mailItem.MarkAsTask(OlMarkInterval.olMarkNoDate);
                 MailItem replyItem = mailItem.Reply();
 
-                VoiceSearch.speakItOut(" The Subject of the mail is : " + replyItem.Subject + ", You are Replying to " + replyItem.To);
+                replyItem.Display(false);
 
-                replyItem.Display(true);
+                VoiceSearch.speakItOut(" The Subject of the mail is : " + replyItem.Subject + ", You are Replying to " + replyItem.To).GetAwaiter().GetResult();
+                //Task.Delay(1000).Wait();
+                VoiceSearch.speakItOut("Tell me what you want to reply.").GetAwaiter().GetResult();
+                //Task.Delay(2000).Wait();
+                string body = VoiceSearch.RecognizeSpeechAsync().GetAwaiter().GetResult();
+                replyItem.Body = body;
+
+                VoiceSearch.speakItOut("Your Reply is ready. Do you want to Send or Discard?").GetAwaiter().GetResult();
+                //Task.Delay(2000).Wait();
+
+                string action = VoiceSearch.RecognizeSpeechAsync().GetAwaiter().GetResult();
+                if (action.ToLower().Contains("send"))
+                {
+                    replyItem.Send();
+                }
+                else
+                {
+                    replyItem.Close(OlInspectorClose.olDiscard);
+                }
+
             }
             else
             {
