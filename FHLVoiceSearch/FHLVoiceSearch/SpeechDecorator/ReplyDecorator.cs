@@ -48,10 +48,12 @@ namespace FHLVoiceSearch.SpeechDecorator
                 if (action.ToLower().Contains("send"))
                 {
                     replyItem.Send();
+                    VoiceSearch.speakItOut("Mail Sent.").GetAwaiter().GetResult();
                 }
                 else
                 {
                     replyItem.Close(OlInspectorClose.olDiscard);
+                    VoiceSearch.speakItOut("Mail Discarded.").GetAwaiter().GetResult();
                 }
 
             }
