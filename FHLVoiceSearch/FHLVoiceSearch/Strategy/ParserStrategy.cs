@@ -14,6 +14,7 @@ namespace FHLVoiceSearch.Strategy
             { "search", new SearchDecorator( new SpeechParser()) },
             { "reply", new ReplyDecorator( new SpeechParser() )},
             { "read out", new ReadOutDecorator( new SpeechParser() )},
+            { "readout", new ReadOutDecorator( new SpeechParser() )},
             { "flag", new FlagDecorator( new SpeechParser()) },
             
             /*
