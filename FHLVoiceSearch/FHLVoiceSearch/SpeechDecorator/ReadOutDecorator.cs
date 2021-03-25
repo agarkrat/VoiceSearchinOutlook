@@ -28,7 +28,7 @@ namespace FHLVoiceSearch.SpeechDecorator
             if (item is MailItem)
             {
                 MailItem mailItem = (MailItem)item;
-                VoiceSearch.speakItOut(" The mail says: " + mailItem.Body);
+                VoiceSearch.speakItOut(" The mail says: " + mailItem.Body).GetAwaiter().GetResult();
             }
             else
             {
