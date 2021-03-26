@@ -63,9 +63,9 @@ namespace FHLVoiceSearch.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mp {
+        internal static System.Drawing.Bitmap JustSayIt {
             get {
-                object obj = ResourceManager.GetObject("mp", resourceCulture);
+                object obj = ResourceManager.GetObject("JustSayIt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

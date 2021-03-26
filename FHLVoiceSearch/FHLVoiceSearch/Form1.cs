@@ -157,7 +157,7 @@ namespace FHLVoiceSearch
 
                 if (resultText.StartsWith("Stop", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    await speakItOut("Stopping search. Have a nice day");
+                    await speakItOut("Stopping now. Have a nice day");
                     this.Close();
                     return;
                 }

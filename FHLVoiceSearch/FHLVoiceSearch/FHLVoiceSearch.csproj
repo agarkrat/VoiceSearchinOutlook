@@ -231,16 +231,10 @@
     <None Include="Resources\Search.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RedNew.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\RedMuteSvg.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\redsvg.jpg" />
+    <None Include="Resources\JustSayIt.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
